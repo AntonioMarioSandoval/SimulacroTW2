@@ -181,3 +181,25 @@
     <div id="exam-screen" class="container screen">
         <h2 id="exam-title">Evaluación en curso</h2>
         <div id="results-summary" style="display: none;"></div>
+        
+        <div id="questions-container"></div>
+
+        <div id="development-questions-container" style="display: none; margin-top: 40px;">
+            <h3 style="border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">Preguntas de Desarrollo</h3>
+            <div id="dev-content"></div>
+        </div>
+
+        <div class="center-btn">
+            <button id="btn-finish" onclick="finishExam()">FINALIZAR EXAMEN</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE IMÁGENES -->
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-img">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
