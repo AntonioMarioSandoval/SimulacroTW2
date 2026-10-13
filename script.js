@@ -12,20 +12,22 @@ let adminOptionCount = 2;
 let editingQuestionId = null;
 let currentEditBase64 = null;
 
-// INICIALIZACIÓN SIN SERVIDOR
+// INICIALIZACIÓN CON SERVIDOR (Netlify / GitHub Pages)
 document.addEventListener("DOMContentLoaded", () => {
-    try {
-        if (typeof preguntasData !== 'undefined') {
-            if (preguntasData.multipleChoice) jsonDatabase = preguntasData.multipleChoice.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
-            if (preguntasData.development) jsonDevData = preguntasData.development.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
-        } else {
-            console.warn("No se encontró la variable preguntasData. Se usará solo el LocalStorage.");
-        }
-    } catch (error) {
-        console.error("Error al cargar los datos predeterminados:", error);
-    }
-    
-    initApp();
+    fetch('preguntas.json')
+        .then(response => {
+            if (!response.ok) throw new Error("No se pudo cargar preguntas.json");
+            return response.json();
+        })
+        .then(data => {
+            if (data.multipleChoice) jsonDatabase = data.multipleChoice.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
+            if (data.development) jsonDevData = data.development.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
+            initApp();
+        })
+        .catch(error => {
+            console.warn("No se encontró preguntas.json o hubo un error al leerlo. Se usará solo el LocalStorage.", error);
+            initApp();
+        });
 });
 
 function initApp() {
@@ -47,8 +49,14 @@ function getAllQuestions() {
     return combined;
 }
 
+// Función auxiliar de protección por si el elemento está oculto (comentado en HTML)
+function getActiveSubject() {
+    const select = document.getElementById('global-subject');
+    return select ? select.value : "Taller Web 2";
+}
+
 function updateActiveSubject() {
-    const activeSubject = document.getElementById('global-subject').value;
+    const activeSubject = getActiveSubject();
     database = getAllQuestions().filter(q => q.subject === activeSubject);
     developmentData = jsonDevData.filter(q => q.subject === activeSubject);
     
@@ -65,17 +73,15 @@ function updateActiveSubject() {
     updateRangeInfo();
 }
 
-// CONTROL DE NAVEGACIÓN Y BOTÓN HEADER
 function navTo(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     
-    // Mostrar u ocultar la flecha de volver global
     const backBtn = document.getElementById('header-back-btn');
     if (screenId === 'home-screen') {
         backBtn.style.display = 'none';
     } else {
-        backBtn.style.display = 'flex'; // Usamos flex por los estilos de centrado
+        backBtn.style.display = 'flex'; 
     }
 
     if (screenId === 'setup-screen') updateRangeInfo();
@@ -83,7 +89,6 @@ function navTo(screenId) {
 }
 
 function goHome() {
-    // Protección si está rindiendo un examen
     const examScreen = document.getElementById('exam-screen');
     const btnFinish = document.getElementById('btn-finish');
     
@@ -95,7 +100,6 @@ function goHome() {
     document.getElementById('timer-display').style.display = 'none';
     document.getElementById('development-questions-container').style.display = 'none';
     
-    // Limpiar buscador al salir
     document.getElementById('search-input').value = '';
     document.getElementById('search-results').innerHTML = '';
 
@@ -131,7 +135,10 @@ function updateAdminSubjectChange() {
 }
 
 function loadAdminQuestionsList() {
-    const subject = document.getElementById('admin-subject').value;
+    const subjectSelect = document.getElementById('admin-subject');
+    if(!subjectSelect) return; 
+    
+    const subject = subjectSelect.value;
     const select = document.getElementById('admin-edit-select');
     select.innerHTML = '<option value="">-- Crear Nueva Pregunta --</option>';
     
@@ -177,11 +184,12 @@ function onEditSelectChange() {
 function resetAdminForm() {
     editingQuestionId = null;
     currentEditBase64 = null;
-    document.getElementById('admin-edit-select').value = "";
-    document.getElementById('admin-question').value = "";
-    document.getElementById('admin-image-url').value = "";
-    document.getElementById('admin-image-file').value = "";
-    document.getElementById('btn-save-admin').innerText = "Guardar Pregunta";
+    if(document.getElementById('admin-edit-select')) document.getElementById('admin-edit-select').value = "";
+    if(document.getElementById('admin-question')) document.getElementById('admin-question').value = "";
+    if(document.getElementById('admin-image-url')) document.getElementById('admin-image-url').value = "";
+    if(document.getElementById('admin-image-file')) document.getElementById('admin-image-file').value = "";
+    if(document.getElementById('btn-save-admin')) document.getElementById('btn-save-admin').innerText = "Guardar Pregunta";
+    
     adminOptionCount = 2; 
     if(document.getElementById('admin-opt-count-display')) {
         document.getElementById('admin-opt-count-display').innerText = adminOptionCount;
@@ -213,6 +221,8 @@ function changeAdminOptionCount(delta) {
 
 function renderAdminOptionsUI(values = [], checkedIdx = 0) {
     const container = document.getElementById('admin-options-container');
+    if(!container) return;
+    
     let html = `<label style="display: block; color: var(--primary-hover); margin-bottom: 10px;">Escribe las opciones y selecciona cuál es la correcta:</label>`;
     
     for (let i = 0; i < adminOptionCount; i++) {
@@ -296,6 +306,9 @@ async function saveAdminQuestion() {
     updateActiveSubject();
 }
 
+// ==========================================
+// EXPORTAR BASE DE DATOS COMO JSON
+// ==========================================
 function exportDatabase() {
     let allQ = getAllQuestions();
     
@@ -314,13 +327,14 @@ function exportDatabase() {
         development: jsonDevData
     };
 
-    const dataStr = "const preguntasData = " + JSON.stringify(exportData, null, 4) + ";";
-    const blob = new Blob([dataStr], { type: "text/javascript" });
+    // Convertimos directamente a un string JSON válido
+    const dataStr = JSON.stringify(exportData, null, 4);
+    const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
     a.href = url;
-    a.download = "preguntas_actualizadas.js";
+    a.download = "preguntas.json";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -369,10 +383,10 @@ function updateRangeInfo() {
 }
 
 function startStudyMode() {
-    if(database.length === 0) return alert("No hay preguntas para la materia seleccionada. ¡Agrega algunas en Administrar Preguntas!");
+    if(database.length === 0) return alert("No hay preguntas para la materia seleccionada.");
     isStudyMode = true;
     currentQuestions = [...database]; 
-    document.getElementById('exam-title').innerText = `Modo Estudio: ${document.getElementById('global-subject').value}`;
+    document.getElementById('exam-title').innerText = `Modo Estudio: ${getActiveSubject()}`;
     document.getElementById('btn-finish').style.display = 'none';
     document.getElementById('results-summary').style.display = 'none';
     renderQuestions();
@@ -398,7 +412,7 @@ function startExam() {
         currentQuestions = pool.slice(0, qty);
     }
 
-    document.getElementById('exam-title').innerText = `Evaluación: ${document.getElementById('global-subject').value}`;
+    document.getElementById('exam-title').innerText = `Evaluación: ${getActiveSubject()}`;
     document.getElementById('btn-finish').style.display = 'inline-block';
     document.getElementById('results-summary').style.display = 'none';
     document.getElementById('development-questions-container').style.display = 'none'; 
@@ -547,12 +561,10 @@ function normalizeText(text) {
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[¿?¡!.,:;()\n]/g, " ").replace(/\s+/g, " ").trim();
 }
 
-// NUEVO: Buscador automático al escribir
 function searchAnswer() {
     const input = document.getElementById('search-input').value;
     const resultsContainer = document.getElementById('search-results');
 
-    // Si el campo está vacío, limpiar los resultados automáticamente
     if (!input.trim()) {
         resultsContainer.innerHTML = '';
         return;

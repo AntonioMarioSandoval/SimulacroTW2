@@ -1,4 +1,4 @@
-const preguntasData = {
+{
     "multipleChoice": [
         {
             "id": 1,
@@ -864,4 +864,4 @@ const preguntasData = {
         }
     ],
     "development": []
-};
+}

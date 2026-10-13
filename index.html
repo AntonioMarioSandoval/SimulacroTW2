@@ -9,7 +9,6 @@
 <body>
     <header>
         <div style="display: flex; align-items: center;">
-            <!-- BOTÓN DE VOLVER GLOBAL -->
             <button id="header-back-btn" class="back-btn" onclick="goHome()" style="display: none;" title="Volver al Inicio">
                 &#8592;
             </button>
@@ -154,10 +153,10 @@
 
         <div style="margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
             <button class="btn-secondary" onclick="exportDatabase()" style="width: 100%; max-width: 400px; border-color: #8b5cf6; color: #8b5cf6; background: rgba(139, 92, 246, 0.05);">
-                💾 Exportar Base de Datos (.js)
+                💾 Exportar Base de Datos (.json)
             </button>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">
-                Descarga el archivo haciendo clic arriba, cámbiale el nombre a <strong>preguntas.js</strong> y reemplaza tu archivo original para guardar los cambios de forma permanente.
+                Descarga el archivo, cámbiale el nombre a <strong>preguntas.json</strong> y súbelo a tu repositorio de GitHub para que Netlify actualice los cambios.
             </p>
         </div>
     </div>
@@ -168,7 +167,6 @@
         <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe y las respuestas irán apareciendo automáticamente.</p>
         
         <div class="form-group">
-            <!-- SE AGREGÓ ONINPUT PARA BÚSQUEDA EN TIEMPO REAL -->
             <textarea id="search-input" rows="5" placeholder="Empieza a escribir tu pregunta aquí..." style="resize: vertical; font-size: 1.1rem;" oninput="searchAnswer()"></textarea>
         </div>
 
@@ -183,26 +181,3 @@
     <div id="exam-screen" class="container screen">
         <h2 id="exam-title">Evaluación en curso</h2>
         <div id="results-summary" style="display: none;"></div>
-        
-        <div id="questions-container"></div>
-
-        <div id="development-questions-container" style="display: none; margin-top: 40px;">
-            <h3 style="border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">Preguntas de Desarrollo</h3>
-            <div id="dev-content"></div>
-        </div>
-
-        <div class="center-btn">
-            <button id="btn-finish" onclick="finishExam()">FINALIZAR EXAMEN</button>
-        </div>
-    </div>
-
-    <!-- MODAL DE IMÁGENES -->
-    <div id="image-modal" class="modal" onclick="closeModal()">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modal-img">
-    </div>
-
-    <script src="preguntas.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
