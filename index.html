@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Examen - Múltiples Materias</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center;">
+            <!-- BOTÓN DE VOLVER GLOBAL -->
+            <button id="header-back-btn" class="back-btn" onclick="goHome()" style="display: none;" title="Volver al Inicio">
+                &#8592;
+            </button>
+            <h1>UNLaM | Simulación de Evaluación</h1>
+        </div>
+        <div id="timer-display" style="display: none;">00:00</div>
+    </header>
+
+    <!-- PANTALLA DE INICIO -->
+    <div id="home-screen" class="screen active">
+        <div class="home-wrapper">
+            <div class="home-header">
+                <h2>Simulador de Examen: TALLER WEB 2</h2>
+                <!--<div style="margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <label style="display:inline; color: var(--text-color); font-weight: bold; margin-right: 10px;">Materia Activa:</label>
+                    <select id="global-subject" onchange="updateActiveSubject()" style="width: auto; display: inline-block; padding: 5px 10px;">
+                        <option value="Taller Web 2" selected>Taller Web 2</option>
+                        <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web</option>
+                    </select>
+                </div>-->
+            </div>
+            
+            <div class="home-actions" style="flex-wrap: wrap;">
+                <button class="btn-large" onclick="navTo('setup-screen')" style="flex: 1; min-width: 250px;">
+                    <span class="btn-icon">⚙️</span>
+                    <div class="btn-text">
+                        <strong>Configurar Examen</strong>
+                        <span>Personaliza cantidad y tiempo</span>
+                    </div>
+                </button>
+                
+                <button class="btn-large btn-secondary" onclick="startStudyMode()" style="flex: 1; min-width: 250px;">
+                    <span class="btn-icon">📚</span>
+                    <div class="btn-text">
+                        <strong>Modo Estudio</strong>
+                        <span>Ver todas las respuestas correctas</span>
+                    </div>
+                </button>
+
+                <button class="btn-large btn-secondary" onclick="navTo('search-screen')" style="flex: 1; min-width: 250px; background-color: rgba(0, 105, 77, 0.05); border-color: rgba(0, 105, 77, 0.4);">
+                    <span class="btn-icon">🔍</span>
+                    <div class="btn-text">
+                        <strong>Buscador Rápido</strong>
+                        <span>Halla respuestas en la base de datos</span>
+                    </div>
+                </button>
+
+                <!--<button class="btn-large" onclick="navTo('admin-screen')" style="flex: 1; min-width: 250px; background-color: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.5);">
+                    <span class="btn-icon">📝</span>
+                    <div class="btn-text">
+                        <strong>Administrar Preguntas</strong>
+                        <span>Crea, edita o exporta preguntas</span>
+                    </div>
+                </button>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CONFIGURACIÓN DE EXAMEN -->
+    <div id="setup-screen" class="container screen">
+        <h2>Configuración del Examen</h2>
+        
+        <div class="form-group">
+            <label>Cantidad de preguntas a evaluar (Max <span id="max-q">0</span>):</label>
+            <input type="number" id="cfg-qty" value="30" min="1" oninput="updateRangeInfo()">
+        </div>
+
+        <div class="form-group">
+            <label>Tiempo máximo (en minutos):</label>
+            <input type="number" id="cfg-time" value="30" min="1">
+        </div>
+
+        <div class="form-group">
+            <label>Orden de las preguntas:</label>
+            <select id="cfg-order" onchange="toggleRange()">
+                <option value="aleatorio">Aleatorio</option>
+                <option value="orden">En orden secuencial</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="range-container" style="display: none; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed var(--border-color);">
+            <label style="color: var(--primary-color);">¿Desde cuál pregunta deseas iniciar?</label>
+            <div style="display: flex; align-items: center; gap: 15px; margin-top: 8px;">
+                <input type="number" id="cfg-start" value="1" min="1" placeholder="Ej: 1, 60, etc." oninput="updateRangeInfo()" style="width: 100px;">
+                <span id="range-info" style="color: var(--text-muted); font-size: 0.95rem;"></span>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 25px;">
+            <button onclick="startExam()" style="width: 100%;">Iniciar Examen</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE ADMINISTRACIÓN DE PREGUNTAS -->
+    <div id="admin-screen" class="container screen">
+        <h2>Gestión de Preguntas</h2>
+        
+        <div class="form-group">
+            <label>Materia a administrar:</label>
+            <select id="admin-subject" onchange="updateAdminSubjectChange()">
+                <option value="Taller Web 2" selected>Taller Web 2</option>
+                <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed var(--primary-color);">
+            <label style="color: var(--primary-color);">Acción a realizar:</label>
+            <select id="admin-edit-select" onchange="onEditSelectChange()">
+                <option value="">-- Crear Nueva Pregunta --</option>
+            </select>
+            <small style="color: var(--text-muted); display: block; margin-top: 5px;">Selecciona una pregunta para corregirla o déjalo así para agregar una nueva.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Enunciado de la pregunta:</label>
+            <textarea id="admin-question" rows="3" placeholder="Ej: ¿Qué etiqueta HTML se utiliza para..."></textarea>
+        </div>
+
+        <div class="form-group" style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);">
+            <label style="color: var(--text-color);">Imagen de apoyo como pista (Opcional):</label>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                <input type="text" id="admin-image-url" placeholder="Pega una URL de internet (ej. https://...)">
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: 5px 0;">O carga un archivo de tu PC:</div>
+                <input type="file" id="admin-image-file" accept="image/*" style="padding: 5px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Cantidad de Opciones a mostrar:</label>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button type="button" class="btn-secondary" style="margin: 0; padding: 2px 18px; font-size: 1.6rem; font-weight: bold; border-radius: 6px; line-height: 1.2;" onclick="changeAdminOptionCount(-1)">-</button>
+                <span id="admin-opt-count-display" style="font-size: 1.3rem; font-weight: bold; min-width: 25px; text-align: center; color: white;">2</span>
+                <button type="button" class="btn-secondary" style="margin: 0; padding: 2px 16px; font-size: 1.6rem; font-weight: bold; border-radius: 6px; line-height: 1.2;" onclick="changeAdminOptionCount(1)">+</button>
+            </div>
+        </div>
+
+        <div id="admin-options-container" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed var(--border-color); margin-top: 15px;"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 25px;">
+            <button id="btn-save-admin" onclick="saveAdminQuestion()" style="width: 100%;">Guardar Pregunta</button>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+            <button class="btn-secondary" onclick="exportDatabase()" style="width: 100%; max-width: 400px; border-color: #8b5cf6; color: #8b5cf6; background: rgba(139, 92, 246, 0.05);">
+                💾 Exportar Base de Datos (.js)
+            </button>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">
+                Descarga el archivo haciendo clic arriba, cámbiale el nombre a <strong>preguntas.js</strong> y reemplaza tu archivo original para guardar los cambios de forma permanente.
+            </p>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE BÚSQUEDA RÁPIDA -->
+    <div id="search-screen" class="container screen">
+        <h2>Buscador de Respuestas en Tiempo Real</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe y las respuestas irán apareciendo automáticamente.</p>
+        
+        <div class="form-group">
+            <!-- SE AGREGÓ ONINPUT PARA BÚSQUEDA EN TIEMPO REAL -->
+            <textarea id="search-input" rows="5" placeholder="Empieza a escribir tu pregunta aquí..." style="resize: vertical; font-size: 1.1rem;" oninput="searchAnswer()"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <button class="btn-secondary" onclick="document.getElementById('search-input').value=''; document.getElementById('search-results').innerHTML='';">Limpiar Búsqueda</button>
+        </div>
+
+        <div id="search-results" style="margin-top: 30px;"></div>
+    </div>
+
+    <!-- PANTALLA DE EXAMEN / ESTUDIO -->
+    <div id="exam-screen" class="container screen">
+        <h2 id="exam-title">Evaluación en curso</h2>
+        <div id="results-summary" style="display: none;"></div>
+        
+        <div id="questions-container"></div>
+
+        <div id="development-questions-container" style="display: none; margin-top: 40px;">
+            <h3 style="border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">Preguntas de Desarrollo</h3>
+            <div id="dev-content"></div>
+        </div>
+
+        <div class="center-btn">
+            <button id="btn-finish" onclick="finishExam()">FINALIZAR EXAMEN</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE IMÁGENES -->
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-img">
+    </div>
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
