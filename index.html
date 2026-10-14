@@ -22,12 +22,23 @@
         <div class="home-wrapper">
             <div class="home-header">
                 <h2>Simulador de Examen</h2>
-                <div style="margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
-                    <label style="display:inline; color: var(--text-color); font-weight: bold; margin-right: 10px;">Materia Activa:</label>
-                    <select id="global-subject" onchange="updateActiveSubject()" style="width: auto; display: inline-block; padding: 5px 10px;">
-                        <option value="Taller Web 2" selected>Taller Web 2</option>
-                        <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web - Parcial 1</option>
-                    </select>
+                
+                <!-- SELECTORES GLOBALES DE MATERIA Y PARCIAL -->
+                <div style="margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <label style="color: var(--text-color); font-weight: bold; width: 80px; text-align: right;">Materia:</label>
+                        <select id="global-subject" onchange="updateActiveSubject()" style="width: auto; flex: 1; max-width: 250px; padding: 5px 10px;">
+                            <option value="Taller Web 2" selected>Taller Web 2</option>
+                            <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <label style="color: var(--text-color); font-weight: bold; width: 80px; text-align: right;">Instancia:</label>
+                        <select id="global-partial" onchange="updateActiveSubject()" style="width: auto; flex: 1; max-width: 250px; padding: 5px 10px;">
+                            <option value="Parcial 1" selected>Primer Parcial</option>
+                            <option value="Parcial 2">Segundo Parcial</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
@@ -56,6 +67,7 @@
                     </div>
                 </button>
 
+                <!-- BOTÓN PARA ADMINISTRAR PREGUNTAS -->
                 <!--<button class="btn-large" onclick="navTo('admin-screen')" style="flex: 1; min-width: 250px; background-color: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.5);">
                     <span class="btn-icon">📝</span>
                     <div class="btn-text">
@@ -89,6 +101,14 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label>Modalidad de Resultados:</label>
+            <select id="cfg-feedback">
+                <option value="final">Al finalizar el examen (Recomendado)</option>
+                <option value="instant">Inmediato (Al marcar cada respuesta)</option>
+            </select>
+        </div>
+
         <div class="form-group" id="range-container" style="display: none; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed var(--border-color);">
             <label style="color: var(--primary-color);">¿Desde cuál pregunta deseas iniciar?</label>
             <div style="display: flex; align-items: center; gap: 15px; margin-top: 8px;">
@@ -106,12 +126,22 @@
     <div id="admin-screen" class="container screen">
         <h2>Gestión de Preguntas</h2>
         
-        <div class="form-group">
-            <label>Materia a administrar:</label>
-            <select id="admin-subject" onchange="updateAdminSubjectChange()">
-                <option value="Taller Web 2" selected>Taller Web 2</option>
-                <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web</option>
-            </select>
+        <!-- MATERIA Y PARCIAL PARA ADMIN -->
+        <div class="form-group" style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+                <label>Materia destino:</label>
+                <select id="admin-subject" onchange="updateAdminSubjectChange()">
+                    <option value="Taller Web 2" selected>Taller Web 2</option>
+                    <option value="Seguridad y Calidad">Seguridad y calidad de aplicaciones web</option>
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 200px;">
+                <label>Instancia destino:</label>
+                <select id="admin-partial" onchange="updateAdminSubjectChange()">
+                    <option value="Parcial 1" selected>Primer Parcial</option>
+                    <option value="Parcial 2">Segundo Parcial</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-group" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed var(--primary-color);">
@@ -119,7 +149,7 @@
             <select id="admin-edit-select" onchange="onEditSelectChange()">
                 <option value="">-- Crear Nueva Pregunta --</option>
             </select>
-            <small style="color: var(--text-muted); display: block; margin-top: 5px;">Selecciona una pregunta para corregirla o déjalo así para agregar una nueva.</small>
+            <small style="color: var(--text-muted); display: block; margin-top: 5px;">Selecciona una pregunta para corregirla o déjalo así para agregar una nueva a la combinación seleccionada arriba.</small>
         </div>
 
         <div class="form-group">

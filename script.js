@@ -6,6 +6,8 @@ let database = [];
 let developmentData = []; 
 let currentQuestions = [];
 let isStudyMode = false;
+let instantFeedback = false; 
+let answeredQuestionsCount = 0; 
 let timerInterval;
 let timeRemaining;
 let adminOptionCount = 2;
@@ -20,8 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(data => {
-            if (data.multipleChoice) jsonDatabase = data.multipleChoice.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
-            if (data.development) jsonDevData = data.development.map(q => ({...q, subject: q.subject || "Seguridad y Calidad"}));
+            // Se asigna Parcial 1 por defecto a los datos viejos si no tienen asignado un parcial
+            if (data.multipleChoice) jsonDatabase = data.multipleChoice.map(q => ({...q, subject: q.subject || "Seguridad y Calidad", partial: q.partial || "Parcial 1"}));
+            if (data.development) jsonDevData = data.development.map(q => ({...q, subject: q.subject || "Seguridad y Calidad", partial: q.partial || "Parcial 1"}));
             initApp();
         })
         .catch(error => {
@@ -39,26 +42,39 @@ function initApp() {
 function getAllQuestions() {
     let combined = [...jsonDatabase];
     customDatabase.forEach(customQ => {
-        let existingIndex = combined.findIndex(q => q.id === customQ.id && q.subject === customQ.subject);
+        // Unimos asegurándonos que el parcial también coincida (o fallback a Parcial 1 para evitar errores)
+        let qPartial = customQ.partial || "Parcial 1";
+        let existingIndex = combined.findIndex(q => q.id === customQ.id && q.subject === customQ.subject && q.partial === qPartial);
+        
+        // Formateamos para que siempre tenga el valor del parcial seteado en RAM
+        let formattedCustomQ = {...customQ, partial: qPartial};
+
         if (existingIndex !== -1) {
-            combined[existingIndex] = customQ;
+            combined[existingIndex] = formattedCustomQ;
         } else {
-            combined.push(customQ);
+            combined.push(formattedCustomQ);
         }
     });
     return combined;
 }
 
-// Función auxiliar de protección por si el elemento está oculto (comentado en HTML)
 function getActiveSubject() {
     const select = document.getElementById('global-subject');
     return select ? select.value : "Taller Web 2";
 }
 
+function getActivePartial() {
+    const select = document.getElementById('global-partial');
+    return select ? select.value : "Parcial 1";
+}
+
 function updateActiveSubject() {
     const activeSubject = getActiveSubject();
-    database = getAllQuestions().filter(q => q.subject === activeSubject);
-    developmentData = jsonDevData.filter(q => q.subject === activeSubject);
+    const activePartial = getActivePartial();
+
+    // Filtramos tanto por materia como por parcial
+    database = getAllQuestions().filter(q => q.subject === activeSubject && q.partial === activePartial);
+    developmentData = jsonDevData.filter(q => q.subject === activeSubject && q.partial === activePartial);
     
     const maxQElem = document.getElementById('max-q');
     const qtyElem = document.getElementById('cfg-qty');
@@ -92,7 +108,7 @@ function goHome() {
     const examScreen = document.getElementById('exam-screen');
     const btnFinish = document.getElementById('btn-finish');
     
-    if (examScreen.classList.contains('active') && btnFinish.style.display !== 'none' && !isStudyMode) {
+    if (examScreen.classList.contains('active') && document.getElementById('results-summary').style.display === 'none' && !isStudyMode) {
         if (!confirm("El examen está en curso. ¿Estás seguro de que deseas salir y perder tu progreso?")) return;
     }
 
@@ -136,13 +152,16 @@ function updateAdminSubjectChange() {
 
 function loadAdminQuestionsList() {
     const subjectSelect = document.getElementById('admin-subject');
-    if(!subjectSelect) return; 
+    const partialSelect = document.getElementById('admin-partial');
+    if(!subjectSelect || !partialSelect) return; 
     
     const subject = subjectSelect.value;
+    const partial = partialSelect.value;
     const select = document.getElementById('admin-edit-select');
     select.innerHTML = '<option value="">-- Crear Nueva Pregunta --</option>';
     
-    const subjectQs = getAllQuestions().filter(q => q.subject === subject);
+    // Mostramos las preguntas del combo seleccionado (Materia + Parcial)
+    const subjectQs = getAllQuestions().filter(q => q.subject === subject && q.partial === partial);
     subjectQs.forEach(q => {
         select.innerHTML += `<option value="${q.id}">ID: ${q.id} - ${q.question.substring(0, 50)}...</option>`;
     });
@@ -156,7 +175,8 @@ function onEditSelectChange() {
     }
     
     const subject = document.getElementById('admin-subject').value;
-    const q = getAllQuestions().find(q => q.id == id && q.subject === subject);
+    const partial = document.getElementById('admin-partial').value;
+    const q = getAllQuestions().find(q => q.id == id && q.subject === subject && q.partial === partial);
     
     if(q) {
         editingQuestionId = q.id;
@@ -249,6 +269,7 @@ function getBase64(file) {
 
 async function saveAdminQuestion() {
     const subject = document.getElementById('admin-subject').value;
+    const partial = document.getElementById('admin-partial').value;
     const questionText = document.getElementById('admin-question').value.trim();
     
     const radioChecked = document.querySelector('input[name="admin-correct"]:checked');
@@ -278,20 +299,21 @@ async function saveAdminQuestion() {
 
     let qId = editingQuestionId;
     if (!qId) {
-        const subjectQs = getAllQuestions().filter(q => q.subject === subject);
+        const subjectQs = getAllQuestions().filter(q => q.subject === subject && q.partial === partial);
         qId = subjectQs.length > 0 ? Math.max(...subjectQs.map(q => q.id || 0)) + 1 : 1;
     }
 
     const newQuestion = {
         id: qId,
         subject: subject,
+        partial: partial,
         question: questionText,
         options: options,
         correct: correctIdx
     };
     if (finalImage) newQuestion.image = finalImage;
 
-    let existingIdx = customDatabase.findIndex(q => q.id === qId && q.subject === subject);
+    let existingIdx = customDatabase.findIndex(q => q.id === qId && q.subject === subject && (q.partial || "Parcial 1") === partial);
     if(existingIdx !== -1) {
         customDatabase[existingIdx] = newQuestion;
     } else {
@@ -300,15 +322,12 @@ async function saveAdminQuestion() {
 
     localStorage.setItem('customQuestions', JSON.stringify(customDatabase));
 
-    alert(`¡Pregunta guardada exitosamente! Recuerda usar el botón de Exportar para descargar los cambios a tu archivo físico.`);
+    alert(`¡Pregunta guardada exitosamente para ${subject} - ${partial}!`);
     
     initAdminOptions(); 
     updateActiveSubject();
 }
 
-// ==========================================
-// EXPORTAR BASE DE DATOS COMO JSON
-// ==========================================
 function exportDatabase() {
     let allQ = getAllQuestions();
     
@@ -317,6 +336,7 @@ function exportDatabase() {
             let obj = {
                 id: q.id,
                 subject: q.subject,
+                partial: q.partial || "Parcial 1", // Se asegura de exportarlo con parcial
                 question: q.question,
                 options: q.options,
                 correct: q.correct
@@ -324,10 +344,9 @@ function exportDatabase() {
             if (q.image) obj.image = q.image; 
             return obj;
         }),
-        development: jsonDevData
+        development: jsonDevData.map(q => ({...q, partial: q.partial || "Parcial 1"}))
     };
 
-    // Convertimos directamente a un string JSON válido
     const dataStr = JSON.stringify(exportData, null, 4);
     const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -350,7 +369,7 @@ function toggleRange() {
 function updateRangeInfo() {
     const infoBox = document.getElementById('range-info');
     if (database.length === 0) {
-        infoBox.innerHTML = "<span style='color: #ef4444;'>No hay preguntas disponibles para esta materia. Ve a Administrar Preguntas.</span>";
+        infoBox.innerHTML = "<span style='color: #ef4444;'>No hay preguntas disponibles para esta materia y parcial. Ve a Administrar Preguntas.</span>";
         return;
     }
     
@@ -383,10 +402,11 @@ function updateRangeInfo() {
 }
 
 function startStudyMode() {
-    if(database.length === 0) return alert("No hay preguntas para la materia seleccionada.");
+    if(database.length === 0) return alert("No hay preguntas para la combinación seleccionada.");
     isStudyMode = true;
+    instantFeedback = false; 
     currentQuestions = [...database]; 
-    document.getElementById('exam-title').innerText = `Modo Estudio: ${getActiveSubject()}`;
+    document.getElementById('exam-title').innerText = `Modo Estudio: ${getActiveSubject()} - ${getActivePartial()}`;
     document.getElementById('btn-finish').style.display = 'none';
     document.getElementById('results-summary').style.display = 'none';
     renderQuestions();
@@ -395,8 +415,14 @@ function startStudyMode() {
 }
 
 function startExam() {
-    if(database.length === 0) return alert("No hay preguntas para la materia seleccionada.");
+    if(database.length === 0) return alert("No hay preguntas para la combinación seleccionada.");
+    
     isStudyMode = false;
+    answeredQuestionsCount = 0; 
+    
+    const feedbackConfig = document.getElementById('cfg-feedback');
+    instantFeedback = feedbackConfig ? (feedbackConfig.value === 'instant') : false;
+    
     let qty = parseInt(document.getElementById('cfg-qty').value) || 10;
     let timeMinutes = parseInt(document.getElementById('cfg-time').value) || 30;
     let order = document.getElementById('cfg-order').value;
@@ -412,13 +438,43 @@ function startExam() {
         currentQuestions = pool.slice(0, qty);
     }
 
-    document.getElementById('exam-title').innerText = `Evaluación: ${getActiveSubject()}`;
-    document.getElementById('btn-finish').style.display = 'inline-block';
+    document.getElementById('exam-title').innerText = `Evaluación: ${getActiveSubject()} - ${getActivePartial()}`;
+    
+    document.getElementById('btn-finish').style.display = instantFeedback ? 'none' : 'inline-block';
+    
     document.getElementById('results-summary').style.display = 'none';
     document.getElementById('development-questions-container').style.display = 'none'; 
+    
     renderQuestions();
     startTimer(timeMinutes * 60);
     navTo('exam-screen');
+}
+
+function handleQuestionAnswer(qIndex) {
+    if (!instantFeedback || isStudyMode) return;
+
+    const q = currentQuestions[qIndex];
+    const selectedRadios = document.querySelectorAll(`input[name="q-${qIndex}"]:checked`);
+    let selectedVal = selectedRadios.length > 0 ? parseInt(selectedRadios[0].value) : -1;
+
+    if (selectedVal === -1) return;
+
+    document.querySelectorAll(`input[name="q-${qIndex}"]`).forEach(r => r.disabled = true);
+
+    if (selectedVal === q.correct) {
+        document.getElementById(`lbl-${qIndex}-${selectedVal}`).classList.add('correct', 'correct-text');
+    } else {
+        document.getElementById(`lbl-${qIndex}-${selectedVal}`).classList.add('incorrect', 'incorrect-text');
+        document.getElementById(`lbl-${qIndex}-${q.correct}`).classList.add('correct', 'correct-text');
+    }
+    
+    answeredQuestionsCount++;
+
+    if(answeredQuestionsCount === currentQuestions.length) {
+        setTimeout(() => {
+            finishExam(true); 
+        }, 400); 
+    }
 }
 
 function renderQuestions() {
@@ -441,7 +497,7 @@ function renderQuestions() {
 
             html += `
                 <label class="option ${labelClass}" id="lbl-${index}-${optIndex}">
-                    <input type="radio" name="q-${index}" value="${optIndex}" ${isChecked} ${disabled}>
+                    <input type="radio" name="q-${index}" value="${optIndex}" ${isChecked} ${disabled} onchange="handleQuestionAnswer(${index})">
                     ${opt}
                 </label>
             `;
@@ -487,8 +543,8 @@ function calculateGrade(correctas, total) {
     return 1; 
 }
 
-function finishExam() {
-    if(!confirm("¿Estás seguro de que deseas finalizar el examen?")) return;
+function finishExam(autoFinish = false) {
+    if(!autoFinish && !confirm("¿Estás seguro de que deseas finalizar el examen?")) return;
 
     clearInterval(timerInterval);
     document.getElementById('timer-display').style.display = 'none';
@@ -503,15 +559,12 @@ function finishExam() {
 
         if (selectedVal === q.correct) {
             score++;
-            document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('correct');
-            document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('correct-text');
+            document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('correct', 'correct-text');
         } else {
             if (selectedVal !== -1) {
-                document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('incorrect');
-                document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('incorrect-text');
+                document.getElementById(`lbl-${index}-${selectedVal}`).classList.add('incorrect', 'incorrect-text');
             }
-            document.getElementById(`lbl-${index}-${q.correct}`).classList.add('correct');
-            document.getElementById(`lbl-${index}-${q.correct}`).classList.add('correct-text');
+            document.getElementById(`lbl-${index}-${q.correct}`).classList.add('correct', 'correct-text');
         }
     });
 
@@ -544,7 +597,7 @@ function startTimer(seconds) {
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             alert("¡Tiempo agotado! El examen se finalizará automáticamente.");
-            finishExam();
+            finishExam(true); 
         }
     }, 1000);
 }
@@ -595,7 +648,7 @@ function searchAnswer() {
         let imgHtml = q.image ? `<img src="${q.image}" class="question-img" onclick="openModal('${q.image}')" alt="Pista visual">` : '';
         html += `
             <div class="question-block" style="background-color: rgba(255,255,255,0.02); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--primary-color);">
-                <div class="question-title" style="color: white;"><strong>Pregunta ${q.id}:</strong> ${q.question}</div>
+                <div class="question-title" style="color: white;"><strong>Pregunta ${q.id}:</strong> ${q.question} <small style="color: var(--primary-hover); font-size: 0.8rem;">[${q.subject} - ${q.partial || 'Parcial 1'}]</small></div>
                 ${imgHtml}
                 <div style="margin-top: 15px;">
         `;
@@ -614,7 +667,7 @@ function searchAnswer() {
         let imgHtml = q.image ? `<img src="${q.image}" class="question-img" onclick="openModal('${q.image}')">` : '';
         html += `
             <div class="question-block" style="background-color: rgba(255,255,255,0.02); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--primary-color);">
-                <div class="question-title" style="color: white;"><strong>Desarrollo ${q.id}:</strong> ${q.question}</div>
+                <div class="question-title" style="color: white;"><strong>Desarrollo ${q.id}:</strong> ${q.question} <small style="color: var(--primary-hover); font-size: 0.8rem;">[${q.subject} - ${q.partial || 'Parcial 1'}]</small></div>
                 ${imgHtml}
                 <div style="margin-top: 15px; font-size: 0.95rem; color: #34d399;"><strong>Respuesta Correcta:</strong><br>${q.answer}</div>
             </div>
