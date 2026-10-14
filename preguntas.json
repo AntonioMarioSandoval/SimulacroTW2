@@ -861,6 +861,784 @@
                 "Para guardar estilos globales"
             ],
             "correct": 2
+        },
+        {
+            "id": 1,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A que ataque del OWASP Top Ten se refiere la siguiente definición: \"El atacante puede ejecutar secuencias de comandos en el navegador de la víctima\"?",
+            "options": [
+                "Secuencia de comandos en Sitios Cruzados (XSS)",
+                "Ausencia de Control de Acceso a Funciones",
+                "Falsificación de Peticiones en Sitios Cruzados (CSRF)",
+                "Referencia Directa Insegura a Objetos"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 2,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de estas tecnologías es considerada generadora de riesgo por ser ejecutada en el cliente?",
+            "options": [
+                "Java Applet",
+                "ActiveX",
+                "Javascript",
+                "Todas las respuestas."
+            ],
+            "correct": 3
+        },
+        {
+            "id": 3,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes puntos NO corresponde a un tipo de vulnerabilidad?",
+            "options": [
+                "Debidas al uso",
+                "Debidas al diseño",
+                "Debidas a la implementación",
+                "Ninguna de las anteriores"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 4,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de estas afirmaciones es verdadera en relación a los Firewalls?",
+            "options": [
+                "No protege de accesos no autorizados",
+                "No protege de ataques internos",
+                "No protege de todos los ataques dañinos",
+                "Todas las anteriores"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 5,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes puntos no es un atributo del protocolo TCP?",
+            "options": [
+                "No es orientado a conexión.",
+                "Corre sobre IP",
+                "Cada paquete tiene un número de secuencia y un flag",
+                "Un paquete tiene un número de puerto origen y destino"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 6,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué se entiende por tampering?",
+            "options": [
+                "Es una técnica para redireccionar al usuario hacia otro servidor.",
+                "Es un ataque de alteración de datos no autorizados",
+                "Ninguna respuesta es correcta",
+                "Es una vulnerabilidad que afecta al código javascript"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 7,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes factores no es evaluado por la OWASP para determinar los riesgos incluidos en el proyecto Top Ten?",
+            "options": [
+                "Vectores de Ataque",
+                "Detectabilidad de debilidades",
+                "Impacto técnico",
+                "Impacto en el negocio"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 8,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué es un bugtraq?",
+            "options": [
+                "Ninguna de las opciones es correcta",
+                "Es una lista de notificaciones sobre vulnerabilidades encontradas en software y hardware",
+                "Es una variante de virus o troyano",
+                "Es un software diseñado para buscar vulnerabilidades"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 9,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cómo se denomina a la zona ubicada entre la red interna y la externa donde habitualmente se ubican a los servidores de la empresa (Web, DB, FTP, Etc.)?",
+            "options": [
+                "DMZ",
+                "B2B",
+                "Router",
+                "LBA"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 10,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué es un firewall?",
+            "options": [
+                "Un dispositivo que permite bloquear o filtrar el acceso entre dos redes; usualmente privada y otra externa",
+                "Un dispositivo de antivirus de red",
+                "Una librería de software que permite asegurar una aplicación web",
+                "Un dispositivo que permite la autenticación en aplicaciones."
+            ],
+            "correct": 0
+        },
+        {
+            "id": 11,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál es la principal función de un comprobador de integridad?",
+            "options": [
+                "Identificar archivos que han sido alterados en el sistema de archivos.",
+                "Notificar vía email sobre cambios en el sistema de archivos.",
+                "Identificar los cambios realizados en los archivos del sistema",
+                "Identificar al usuario que ha producido cambios en el sistema de archivos."
+            ],
+            "correct": 0
+        },
+        {
+            "id": 12,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué tipo de equipo se está refiriendo la siguiente definición? \"Analiza el tráfico de la red para tratar de detectar patrones sospechosos que indiquen ataques o intenciones de ataques contra algún recurso. Una vez identificados, puede tomar ciertas medidas contra ese tipo de tráfico, como generar alertas o inclusive bloquear o descartar el tráfico que viene de ese origen.\"",
+            "options": [
+                "Statefulls",
+                "HoneyNets",
+                "IDS",
+                "HoneyPots"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 13,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos corresponde a una modalidad de acceso a la información en seguridad lógica?",
+            "options": [
+                "Escritura",
+                "Ejecución",
+                "Borrado",
+                "Lectura",
+                "Todas las opciones"
+            ],
+            "correct": 4
+        },
+        {
+            "id": 14,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de las siguientes opciones corresponde al modelo de funcionamiento general de un IDS?",
+            "options": [
+                "Filtrado - Identificación - Acción",
+                "Recolección - Análisis - Respuesta",
+                "Ninguno de los anteriores",
+                "Recolección - Identificación - Clasificación"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 15,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué tipo de equipo se está refiriendo la siguiente definición? \"Divide la LAN en varios segmentos limitando el tráfico a uno o más segmentos en vez de permitir la difusión de los paquetes por todos los puertos\"",
+            "options": [
+                "Switch",
+                "Router",
+                "Bridge",
+                "Hub"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 16,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos no compone la lista de técnicas de OWASP Top Ten Proactive Controls?",
+            "options": [
+                "Implement Appropiate Access Controls",
+                "Validate All Inputs",
+                "Use Virtual Keyboard in the login",
+                "Encode data"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 17,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique el tipo de ataque correspondiente a la siguiente definición: \"[…] ocurren cada vez que una aplicación toma datos no confiables y los envía al navegador web sin una validación y codificación apropiada.\"",
+            "options": [
+                "Falsificación de peticiones en sitios cruzados (CSRF)",
+                "Inyección",
+                "Referencia directa insegura a objetos",
+                "XSS-Cross Site Scripting"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 18,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique el tipo de ataque correspondiente a la siguiente definición: \"Ocurre cuando datos no confiables son enviados a un intérprete como parte de un comando o consulta. Los datos hostiles del atacante pueden engañar al intérprete en ejecutar comandos no intencionados o acceder a datos no autorizados.\"",
+            "options": [
+                "Referencia directa insegura a objetos",
+                "Inyección",
+                "Falsificación de peticiones en sitios cruzados (CSRF)",
+                "Pérdida de autenticación y gestión de sesiones"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 19,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes tipos no corresponde a la lista OWASP de los ataques más frecuentes?",
+            "options": [
+                "Inyección",
+                "Control de accesos sin contraseñas seguras",
+                "Pérdida de autenticación y gestión de sesiones",
+                "Falsificación de peticiones en sitios cruzados (CSRF)"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 20,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué ataque del OWASP Top Ten se refiere la siguiente definición: \"El atacante puede ejecutar secuencias de comandos en el navegador de la víctima…\"?",
+            "options": [
+                "Referencia directa insegura a objetos",
+                "Ausencia de control de Acceso a Funciones",
+                "Falsificación de peticiones en sitios cruzados (CSRF)",
+                "Secuencia de Comandos en Sitios Cruzados (XSS)"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 21,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de las siguientes características no están asociadas a los firewalls?",
+            "options": [
+                "Alta disponibilidad (AD)",
+                "Balanceo de carga (BCFW)",
+                "Filtrados de contenidos/Anti-spam",
+                "Almacenamiento de datos de negocio"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 22,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos NO está catalogado como una Acción Hostil en Seguridad Física?",
+            "options": [
+                "Sabotaje",
+                "Fraude",
+                "Inundación",
+                "Robo"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 23,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos NO forma parte de la pirámide ID?",
+            "options": [
+                "Confidencialidad",
+                "Identificación",
+                "Disponibilidad",
+                "Ninguno"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 24,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos NO se encuentra dentro de los Controles de Acceso Interno de la seguridad lógica?",
+            "options": [
+                "Ninguno",
+                "Contraseñas",
+                "Etiquetas de seguridad",
+                "Listas de control de accesos"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 25,
+            "subject": "Seguridad y Calidad",
+            "question": "Seleccione la opción según la definición de amenaza: \"Entendemos por amenaza aquella situación de daño cuyo…\"",
+            "options": [
+                "Riesgo de producirse es significativo",
+                "Impacto genera una detención total del sistema",
+                "Origen se encuentra en el código de la aplicación",
+                "Impacto no afecta a la funcionalidad del sistema"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 26,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes puntos no es un atributo del protocolo TCP?",
+            "options": [
+                "No es orientado a conexión",
+                "Un paquete tiene un número de puerto de origen y destino",
+                "Corre sobre IP",
+                "Cada paquete tiene un número de secuencia y un flag"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 27,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos se utiliza con el fin de capturar tramas de red?",
+            "options": [
+                "Sniffer",
+                "Ninguno de los anteriores",
+                "IDS",
+                "Firewall personal"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 28,
+            "subject": "Seguridad y Calidad",
+            "question": "¿En qué zona ubica al ataque de inyección?",
+            "options": [
+                "Área de servidor",
+                "Área de Red",
+                "Área de Cliente",
+                "Ninguna"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 29,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos no forma parte del OWASP Top-Ten?",
+            "options": [
+                "Referencia directa insegura a objetos",
+                "Redirecciones y reenvíos no válidos",
+                "Configuración de seguridad incorrecta.",
+                "Denegación de servicio"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 30,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique a qué término se asocia la siguiente definición: \"[…] es la propiedad que busca mantener los datos libres de modificaciones no autorizadas.\"",
+            "options": [
+                "Integridad",
+                "Integridad",
+                "Consistencia",
+                "Confidencialidad"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 31,
+            "subject": "Seguridad y Calidad",
+            "question": "¿En qué zona ubica al ataque de exposición de datos sensibles?",
+            "options": [
+                "Área del cliente",
+                "Área de Red",
+                "Área de Servidor",
+                "Área de red y área de servidor"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 32,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué se denomina \"Learning mode\" en el contexto de la implementación de un WAF?",
+            "options": [
+                "Al modo de operación donde la herramienta registra la actividad normal de la aplicación para que posteriormente pueda ser utilizada a fin de generar reglas.",
+                "Al modo de operación donde se permite que el usuario acceda a la aplicación para generar los ataques que posteriormente serán bloqueados.",
+                "A la capacitación del personal que llevará adelante la configuración de la herramienta.",
+                "Ninguna de las opciones."
+            ],
+            "correct": 0
+        },
+        {
+            "id": 33,
+            "subject": "Seguridad y Calidad",
+            "question": "SYN Flood corresponde a una técnica utilizada para realizar un ataque de…",
+            "options": [
+                "Inyección",
+                "Denegación de servicio",
+                "Control remoto de un servidor",
+                "Secuencia de comandos en sitios cruzados (XSS)"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 34,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de las siguientes tecnologías no puede ser utilizada en un ataque de inyección?",
+            "options": [
+                "SQL",
+                "LDAP",
+                "X-Path",
+                "Ninguna"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 35,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué protocolo soporta la implementación de VPNs?",
+            "options": [
+                "IPSec",
+                "Secure TCP",
+                "ICMP",
+                "Ninguna de las opciones."
+            ],
+            "correct": 0
+        },
+        {
+            "id": 36,
+            "subject": "Seguridad y Calidad",
+            "question": "Seleccione el tipo de ataque correspondiente a la siguiente definición: \"Es un ataque a un sistema de computadoras o red que causa que un servicio o recurso sea inaccesible a los usuarios legítimos.\"",
+            "options": [
+                "Inyección",
+                "Pérdida de autenticación",
+                "Tampering",
+                "Denegación de servicio"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 37,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de estos elementos corresponde a la siguiente definición: \"Se trata de un dispositivo que analiza el tráfico web (entre el servidor web y la WAN), los datos recibidos por parte del usuario y protege de diferentes ataques\"?",
+            "options": [
+                "Firewall personal",
+                "WAF",
+                "Layer 3 firewall",
+                "IDS"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 38,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué significa 'Daño' según la definición?",
+            "options": [
+                "Debe ser cuantificable.",
+                "Todas las respuestas son correctas.",
+                "Ocurre solo cuando se inhabilita el sistema de forma completa.",
+                "Se debe expresar en probabilidad de ocurrencia"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 39,
+            "subject": "Seguridad y Calidad",
+            "question": "La seguridad de la información comprende:",
+            "options": [
+                "Plan Director / Configuración Segura / Auditoría de Eventos",
+                "Normativas / Técnicas de Protección / Plan Director",
+                "Análisis de Riesgo / Normativas / Plan Director",
+                "Análisis de Riesgo / Auditoría de Eventos / Normativas"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 40,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué es un firewall?",
+            "options": [
+                "Un dispositivo de antivirus de red.",
+                "Un dispositivo que permite la autenticación en aplicaciones.",
+                "Un dispositivo que permite bloquear o filtrar el acceso entre dos redes."
+            ],
+            "correct": 2
+        },
+        {
+            "id": 41,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique a qué término se asocia la siguiente definición: \"[...] es la propiedad que busca mantener los datos libres de modificaciones no autorizadas.\"",
+            "options": [
+                "Confidencialidad",
+                "Integridad",
+                "Consistencia",
+                "Disponibilidad"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 42,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál es el conjunto de estándares que permite asignar a las vulnerabilidades una valoración numérica entre 0.0 y 10.0?",
+            "options": [
+                "CVE",
+                "CT",
+                "CVSS",
+                "CWE"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 43,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué tipo de ataque implica capturar la sesión activa de un usuario para acceder sin permiso?",
+            "options": [
+                "Browser Hijacking",
+                "Rootkit",
+                "Session Hijacking",
+                "Stealer"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 44,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes ataques modifica configuraciones del navegador para redirigir a sitios maliciosos?",
+            "options": [
+                "Page Hijacking",
+                "Backdoor",
+                "Session Hijacking",
+                "Browser Hijacking"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 45,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué hace un rootkit?",
+            "options": [
+                "Cifra archivos y pide rescate",
+                "Registra pulsaciones de teclado",
+                "Oculta su presencia y abre puertas traseras",
+                "Redirige a una página falsa"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 46,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué característica principal tiene un backdoor?",
+            "options": [
+                "Roba credenciales de correo",
+                "Captura sesiones de usuario",
+                "Cifra archivos locales",
+                "Permite acceso remoto oculto al sistema"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 47,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de estos malware se usa para registrar pulsaciones del teclado?",
+            "options": [
+                "Rootkit",
+                "Stealer",
+                "Keylogger",
+                "Hijacker"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 48,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué tipo de amenaza cifra los archivos de la víctima y exige un pago para liberarlos?",
+            "options": [
+                "Keylogger",
+                "Stealer",
+                "Ransomware",
+                "Backdoor"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 49,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Qué hace un stealer?",
+            "options": [
+                "Abre acceso remoto sin credenciales",
+                "Oculta su presencia para permanecer indetectable",
+                "Roba información sensible almacenada en el equipo",
+                "Modifica la página de inicio del navegador"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 50,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de estos ataques se clasifica como “hijacking”?",
+            "options": [
+                "Keylogger",
+                "Ransomware",
+                "Backdoor",
+                "Page Hijacking"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 51,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál es el objetivo del ataque de Backdoors?",
+            "options": [
+                "Registrar las actividades de los dispositivos de entrada",
+                "Acceder a la información almacenada para enviarla al atacante",
+                "Habilitar un acceso alternativo evitando los métodos de autenticación",
+                "Retener el control del equipo o cifrar información para que no pueda ser accedida"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 52,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué término está asociada la siguiente definición: “Cuando se recibe un mensaje no solo es necesario poder identificar de forma unívoca al remitente, sino que este asuma todas las responsabilidades derivadas de la información que haya podido enviar”?",
+            "options": [
+                "No repudio",
+                "Confidencialidad",
+                "Anonimato",
+                "Integridad"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 53,
+            "subject": "Seguridad y Calidad",
+            "question": "La seguridad de la información se encarga de:",
+            "options": [
+                "Analizar los riesgos y amenazas a la información.",
+                "Desarrollar políticas y procedimientos de seguridad de la información.",
+                "Implementar tecnologías de protección de la información, como antivirus, firewalls, etc.",
+                "Asegurar la confidencialidad, integridad y disponibilidad de la información."
+            ],
+            "correct": 3
+        },
+        {
+            "id": 54,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique a qué corresponde la siguiente definición: \"se define como una función o método para generar un valor que represente de manera casi unívoca a un dato\"",
+            "options": [
+                "Función de hash",
+                "Función de descifrado de datos",
+                "Función de encriptación de datos",
+                "Función de firma digital"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 55,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Para qué tipo de ataque se podría utilizar la siguiente instrucción?: “document.body.innnerHTML(“atacado(*)”);”",
+            "options": [
+                "XSS (Site defacement)",
+                "JS injection",
+                "CSRF",
+                "Injection"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 56,
+            "subject": "Seguridad y Calidad",
+            "question": "La seguridad informática se encarga de:",
+            "options": [
+                "Analizar los riesgos y amenazas a la información",
+                "Implementar tecnologías de protección de la información, como antivirus, firewalls, etc.",
+                "Desarrollar políticas y procedimientos de seguridad de la información",
+                "Asegurar la confidencialidad, integridad, disponibilidad de la información"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 57,
+            "subject": "Seguridad y Calidad",
+            "question": "Dada la siguiente definición en el código de la aplicación: String query = “ SELECT * FROM ítems WHERE itemname = ‘ “ + itemName + “ ´ ”; Indique cuál de las opciones puede generar un ataque de inyección exitoso:",
+            "options": [
+                "‘; UPDATE ítems SET Price = 50 WHERE itemname = ‘table’",
+                "UPDATE ítems SET Price = 50 WHERE itemname = ‘table",
+                "‘; UPDATE ítems SET Price = 50 WHERE itemname = ‘table"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 58,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes elementos no corresponde a la lista de CWE?",
+            "options": [
+                "Log Shell ACE",
+                "Improper Input validation",
+                "Out of bounds read",
+                "Cross site request forgery"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 59,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de los siguientes puntos corresponde a la seguridad física en dispositivos móviles?",
+            "options": [
+                "Evitar o restringir conexiones a redes públicas o no confiables",
+                "Evitar o restringir la manipulación del dispositivo en zonas públicas",
+                "Considerar el uso de software de seguimiento, borrado de datos y/o bloqueo remoto",
+                "Instalar software solo de fuentes oficiales"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 60,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál de las siguientes opciones NO es una buena práctica para evitar vulnerabilidades de XSS?",
+            "options": [
+                "Validación de entrada positiva o de",
+                "Ninguna de estas opciones",
+                "Utilizar APIs de auto-sanitización",
+                "Codificar los datos no confiables basados en el contexto donde serán ubicados"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 61,
+            "subject": "Seguridad y Calidad",
+            "question": "Al hablar de daño...",
+            "options": [
+                "Todas las otras opciones",
+                "Necesitamos cuantificar el perjuicio",
+                "Tenemos que calcular la probabilidad que ocurra",
+                "No hace falta cuantificar el perjuicio"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 62,
+            "subject": "Seguridad y Calidad",
+            "question": "Indique el tipo de ataque correspondiente a la siguiente definición: “[…] obliga al navegador de una víctima autenticada a enviar una petición HTTP falsificada incluyendo la sesión del usuario y cualquier otra información de modificaciones incluida automáticamente a una aplicación web vulnerable”",
+            "options": [
+                "Referencia directa insegura a objetos",
+                "Falsificación de peticiones en sitios cruzados (CSRF)",
+                "Pérdida de autentificación y gestión de sesión",
+                "Inyección"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 63,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Para qué tipo de ataque se podría utilizar la siguiente instrucción?: “document.body.innnerHTML(“atacado(*)”);”",
+            "options": [
+                "Injection",
+                "XSS (Site defacement)",
+                "CSRF",
+                "JS injection"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 64,
+            "subject": "Seguridad y Calidad",
+            "question": "¿Cuál es la principal función de un comprobador de integridad?",
+            "options": [
+                "Identificar archivos que han sido alterados en el sistema de archivos",
+                "Notificar vía email sobre cambios en el sistema de archivos",
+                "Identificar los cambios realizados en los archivos del sistema"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 65,
+            "subject": "Seguridad y Calidad",
+            "question": "¿A qué elemento corresponde la definición \"Es una lista de tipos de debilidades de software y hardware\"?",
+            "options": [
+                "CWE",
+                "CVE",
+                "CVSS",
+                "NVD"
+            ],
+            "correct": 0
         }
     ],
     "development": []
